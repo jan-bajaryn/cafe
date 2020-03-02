@@ -25,10 +25,6 @@
 </head>
 <body>
 
-<%
-    List<Product> products = new ArrayList<>();
-
-%>
 
 <div class="main-container">
     <nav>
@@ -62,17 +58,17 @@
             <c:forEach var="product" items="${products}">
                 <div class="p_card">
                     <div class="p_card-image">
-                        <img src="static/img/${product.getPhotoName()}" alt="">
+                        <img src="static/img/${product.key.getPhotoName()}" alt="">
                     </div>
                     <div class="p_card-name">
-                            ${product.getName()}
+                            ${product.key.getName()}
                     </div>
                     <div class="p_card-description text-muted">
-                            ${product.getDescription()}
+                            ${product.key.getDescription()}
                     </div>
                     <div class="p_card-footer md-2">
                     <span>
-                        от ${String.format("%.2f", product.getPrice()/100.0)} руб.
+                        от ${String.format("%.2f", product.value/100.0)} руб.
                     </span>
                         <button class="btn mr-5">
                             Выбрать
