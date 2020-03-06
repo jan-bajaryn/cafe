@@ -15,15 +15,19 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"product_group_id", "weight"})})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private Integer price;
+
+    @Column(name = "weight")
     private Integer weight;
 
     @ManyToOne
+    @JoinColumn(name = "product_group_id")
     private ProductGroup productGroup;
 
 }

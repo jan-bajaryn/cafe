@@ -28,6 +28,6 @@ public class DeliveryInf {
     private String phone;
     private String email;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    private Order order;
+//    @OneToOne(fetch = FetchType.EAGER)
+//    private Order order;
 }
