@@ -46,7 +46,7 @@
             <div class="basket">
                 <button class="btn">
                     <span class="border-right">Корзина</span>
-                    <span>1</span>
+                    <span>${basket}</span>
                 </button>
             </div>
         </div>
@@ -56,45 +56,52 @@
             Пиццы
         </div>
         <div class="p_card-list">
-            <c:forEach var="product" items="${products}">
+            <c:forEach var="product_group" items="${products}">
                 <div class="p_card">
                     <div class="p_card-image">
-                        <img src="static/img/${product.key.getPhotoName()}" alt="">
+                        <img src="static/img/${product_group.key.key.getPhotoName()}" alt="">
                     </div>
                     <div class="p_card-name">
-                            ${product.key.getName()}
+                            ${product_group.key.key.getName()}
                     </div>
                     <div class="p_card-description text-muted">
-                            ${product.key.getDescription()}
+                            ${product_group.key.key.getDescription()}
                     </div>
                     <div class="p_card-footer md-2">
                     <span>
-                        от ${String.format("%.2f", product.value/100.0)} руб.
+                        от ${String.format("%.2f", product_group.key.value/100.0)} руб.
                     </span>
                         <button class="btn mr-5 myBtn">
                             Выбрать
                         </button>
                         <div class="modal">
-                            <!-- Modal content -->
-                            <form action="#">
+                            <form action="/put_item" method="get">
                                 <div class="modal-content">
                                     <span class="close">&times;</span>
                                     <div class="modal__main__content">
-                                        <img src="static/img/${product.key.getPhotoName()}" alt="Photo"/>
+                                        <img src="static/img/${product_group.key.key.getPhotoName()}" alt="Photo"/>
                                         <div class="content__description">
                                             <div class="header">
-                                                    ${product.key.getName()}
+                                                    ${product_group.key.key.getName()}
                                             </div>
                                             <div class="description text-muted">
-                                                    ${product.key.getDescription()}
+                                                    ${product_group.key.key.getDescription()}
                                             </div>
                                             <div>
-                                                <input type="radio" id="big" name="variant" value="big">
-                                                <label for="big">Большая<span> 25р</span></label><br>
-                                                <input type="radio" id="middle" name="variant" value="middle">
-                                                <label for="middle">Средняя<span> 17р</span></label><br>
-                                                <input type="radio" id="small" name="variant" value="small">
-                                                <label for="small">Маленькая<span> 14р</span></label><br><br>
+                                                <c:forEach var="product" items="${product_group.value}">
+                                                    <div>
+                                                        <label>
+                                                            <input type="radio" name="variant" value="${product.id}">
+                                                                ${product.weight} грамм -
+                                                            <span> ${String.format("%.2f", product.price/100.0)}р</span>
+                                                        </label>
+                                                    </div>
+                                                </c:forEach>
+
+                                                    <%--                                                <input type="radio" id="middle" name="variant" value="middle">--%>
+                                                    <%--                                                <label for="middle">Средняя<span> 17р</span></label><br>--%>
+                                                    <%--                                                <input type="radio" id="small" name="variant" value="small">--%>
+                                                    <%--                                                <label for="small">Маленькая<span> 14р</span></label><br><br>--%>
                                             </div>
                                         </div>
 
@@ -123,7 +130,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
             crossorigin="anonymous"></script>
+    
     <script src="static/js/index/modals.js"></script>
+    <script src="static/js/index/main.js"></script>
 
 </div>
 </body>

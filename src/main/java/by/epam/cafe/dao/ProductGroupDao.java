@@ -11,4 +11,7 @@ public interface ProductGroupDao extends JpaRepository<ProductGroup, Long> {
 
     //    List<Product> findAllByType(ProductType pizza);
     List<ProductGroup> findAllByType(ProductType type);
+
+    ProductGroup findByProductsContains(Product product);
+
 }

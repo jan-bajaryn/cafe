@@ -30,5 +30,6 @@ public class ProductGroup {
     private ProductType type;
 
     @OneToMany
+//    @Column(unique = true)
     private Set<Product> products;
 }
