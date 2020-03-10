@@ -30,4 +30,7 @@ public class Product {
     @JoinColumn(name = "product_group_id")
     private ProductGroup productGroup;
 
+    @ManyToMany
+    private List<Order> orders;
+
 }

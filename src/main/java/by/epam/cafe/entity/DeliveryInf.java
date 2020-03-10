@@ -23,7 +23,13 @@ public class DeliveryInf {
 
     private String clientName;
 
-    private String address;
+    //    private String address;
+    private String street;
+    private String house;
+    private String room;
+    private String porch;
+    private String floor;
+
 
     private String phone;
     private String email;

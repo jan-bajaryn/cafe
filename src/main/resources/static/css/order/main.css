@@ -1,6 +1,14 @@
 @import "../footer.css";
 @import "../buttons.css";
 
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 main {
     display: flex;
     justify-content: center;
@@ -118,3 +126,11 @@ main {
 }
 
 
+form[action*="deleteAll"] > button[type=submit]:not(.accept__btn) {
+    background: #ffffff;
+    border: none;
+}
+
+.id {
+    display: none;
+}

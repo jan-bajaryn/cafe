@@ -20,9 +20,6 @@
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <link rel="stylesheet" href="static/css/index/main.css">
     <link rel="stylesheet" href="static/css/index/modals.css">
-    <%--    <link rel="stylesheet" href="static/css/footer.css">--%>
-    <%--    <link rel="stylesheet" href="static/css/footer.css">--%>
-    <%--    <link rel="stylesheet" href="static/css/nav__bar.css">--%>
 </head>
 <body>
 

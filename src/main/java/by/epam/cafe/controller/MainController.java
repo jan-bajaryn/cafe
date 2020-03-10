@@ -94,9 +94,14 @@ public class MainController {
         Map<Product, Long> productMap = basket.getProducts().stream()
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
+        Integer sum = productMap.entrySet().stream()
+                .map(p -> p.getKey().getPrice() * p.getValue())
+                .reduce(0L, Long::sum).intValue();
+        log.info("sum = {}", sum);
         log.info("productMap = {}", productMap);
 
         model.addAttribute("productMap", productMap);
+        model.addAttribute("sum", sum);
 
         return "/order";
     }

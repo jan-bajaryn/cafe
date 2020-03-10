@@ -10,6 +10,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -36,5 +37,8 @@ public class Order {
 
     @OneToOne
     private DeliveryInf deliveryInf;
+
+    @ManyToMany
+    private List<Product> products;
 
 }
