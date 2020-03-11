@@ -23,7 +23,12 @@
         <div class="basket">
             <button class="btn">
                 <span class="border-right">Корзина</span>
-                <span>1</span>
+                <span>
+                <c:if test="${basket==null}">
+                    0
+                </c:if>
+                    ${basket}
+                </span>
             </button>
         </div>
     </div>

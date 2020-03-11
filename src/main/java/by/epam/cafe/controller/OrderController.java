@@ -12,7 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -89,6 +91,7 @@ public class OrderController {
         return "redirect:/";
     }
 
+
     @Transactional
     public void saveOrder(String street, String house, String room, String porch, String floor, String email, String tel, String clientName) {
         DeliveryInf deliveryInf = DeliveryInf.builder()
@@ -123,5 +126,33 @@ public class OrderController {
                 .map(Product::getPrice)
                 .reduce(Integer::sum).orElse(0);
     }
+
+
+    @GetMapping("/your-order/{id}")
+    public String yourOrder(Model model, @PathVariable(name = "id") Long id) {
+        Order order = orderRepo.findById(id).orElse(null);
+        if (order == null) {
+            return "errors/no-such-products";
+        }
+
+        model.addAttribute("order", order);
+        model.addAttribute("basket", basket.getProducts().size());
+
+        return "/your-order";
+    }
+
+
+//    @GetMapping("/your-order")
+//    public String yourOrder(Model model) {
+//        Order order = orderRepo.findById(2l).orElse(null);
+//        if (order == null) {
+//            return "errors/no-such-products";
+//        }
+//
+//        model.addAttribute("order", order);
+//        model.addAttribute("basket", basket.getProducts().size());
+//
+//        return "/your-order";
+//    }
 
 }

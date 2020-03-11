@@ -150,14 +150,18 @@
 
     </div>
 </main>
-<footer class="bg-dark">
-    <div class="container">
-        <a href="?">О нас</a>
-        <a href="?">Почему нашу пиццу все любят</a>
-        <a href="?">Наш блог</a>
-        <a href="?">Наши спонсоры</a>
-    </div>
-</footer>
+<%--<footer class="bg-dark">--%>
+<%--    <div class="container">--%>
+<%--        <a href="?">О нас</a>--%>
+<%--        <a href="?">Почему нашу пиццу все любят</a>--%>
+<%--        <a href="?">Наш блог</a>--%>
+<%--        <a href="?">Наши спонсоры</a>--%>
+<%--    </div>--%>
+<%--</footer>--%>
+
+<c:import url="fragments/footer.jsp"/>
+
+
 <%--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>--%>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>

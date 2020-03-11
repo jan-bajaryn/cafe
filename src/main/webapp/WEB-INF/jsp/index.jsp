@@ -25,29 +25,30 @@
 
 
 <div class="main-container">
-    <nav>
-        <div class="nav-container">
-            <div class="list-nav">
-                <div class="icon">
-                    <i class='fas fa-pizza-slice'></i>
-                </div>
-                <ul>
-                    <li><a href="?">Пиццы</a></li>
-                    <li><a href="?">Закуски</a></li>
-                    <li><a href="?">Десерты</a></li>
-                    <li><a href="?">Напитки</a></li>
-                    <li><a href="?">Контакты</a></li>
-                    <li><a href="?">О нас</a></li>
-                </ul>
-            </div>
-            <div class="basket">
-                <button class="btn">
-                    <span class="border-right">Корзина</span>
-                    <span>${basket}</span>
-                </button>
-            </div>
-        </div>
-    </nav>
+    <%--    <nav>--%>
+    <%--        <div class="nav-container">--%>
+    <%--            <div class="list-nav">--%>
+    <%--                <div class="icon">--%>
+    <%--                    <i class='fas fa-pizza-slice'></i>--%>
+    <%--                </div>--%>
+    <%--                <ul>--%>
+    <%--                    <li><a href="?">Пиццы</a></li>--%>
+    <%--                    <li><a href="?">Закуски</a></li>--%>
+    <%--                    <li><a href="?">Десерты</a></li>--%>
+    <%--                    <li><a href="?">Напитки</a></li>--%>
+    <%--                    <li><a href="?">Контакты</a></li>--%>
+    <%--                    <li><a href="?">О нас</a></li>--%>
+    <%--                </ul>--%>
+    <%--            </div>--%>
+    <%--            <div class="basket">--%>
+    <%--                <button class="btn">--%>
+    <%--                    <span class="border-right">Корзина</span>--%>
+    <%--                    <span>${basket}</span>--%>
+    <%--                </button>--%>
+    <%--            </div>--%>
+    <%--        </div>--%>
+    <%--    </nav>--%>
+    <c:import url="fragments/navPanel.jsp"/>
     <main class="container">
         <div class="title-container">
             Пиццы
@@ -113,21 +114,22 @@
             </c:forEach>
         </div>
     </main>
-    <footer class="bg-dark">
-        <div class="container">
-            <a href="?">О нас</a>
-            <a href="?">Почему нашу пиццу все любят</a>
-            <a href="?">Наш блог</a>
-            <a href="?">Наши спонсоры</a>
-        </div>
-    </footer>
+    <%--    <footer class="bg-dark">--%>
+    <%--        <div class="container">--%>
+    <%--            <a href="?">О нас</a>--%>
+    <%--            <a href="?">Почему нашу пиццу все любят</a>--%>
+    <%--            <a href="?">Наш блог</a>--%>
+    <%--            <a href="?">Наши спонсоры</a>--%>
+    <%--        </div>--%>
+    <%--    </footer>--%>
+    <c:import url="fragments/footer.jsp"/>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
             crossorigin="anonymous"></script>
-    
+
     <script src="static/js/index/modals.js"></script>
     <script src="static/js/index/main.js"></script>
 
