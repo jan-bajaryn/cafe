@@ -1,13 +1,12 @@
 package by.epam.cafe.entity;
 
-import by.epam.cafe.entity.enums.ProductSize;
-import by.epam.cafe.entity.enums.ProductType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"product_group_id", "weight"})})
+@Table(name = "product", uniqueConstraints = {@UniqueConstraint(columnNames = {"product_group_id", "weight"})})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,7 +29,7 @@ public class Product {
     @JoinColumn(name = "product_group_id")
     private ProductGroup productGroup;
 
-    @ManyToMany
-    private List<Order> orders;
+    @ManyToMany(mappedBy = "products")
+    private List<Order> orders = new ArrayList<>();
 
 }

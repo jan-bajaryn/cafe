@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,6 +32,7 @@ public class DeliveryInf {
 
     private String phone;
     private String email;
+    private String comments;
 
 //    @OneToOne(fetch = FetchType.EAGER)
 //    private Order order;

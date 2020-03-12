@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -28,8 +30,12 @@ public class User {
     private String name;
     private String surname;
 
-    @CreatedDate
-    private LocalDate creation;
+    //    @CreatedDate
+//    @CreatedDate
+
+    @CreationTimestamp
+    private LocalDateTime creation;
+
     private String address;
     private String phone;
 

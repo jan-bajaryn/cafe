@@ -11,18 +11,17 @@ import by.epam.cafe.entity.enums.PaymentType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Time;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Optional;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -92,8 +91,8 @@ public class OrderController {
     }
 
 
-    @Transactional
     public void saveOrder(String street, String house, String room, String porch, String floor, String email, String tel, String clientName) {
+
         DeliveryInf deliveryInf = DeliveryInf.builder()
                 .street(street)
                 .house(house)
@@ -138,6 +137,18 @@ public class OrderController {
         model.addAttribute("order", order);
         model.addAttribute("basket", basket.getProducts().size());
 
+        Map<Product, Long> productMap = order.getProducts().stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        log.info("productMap = {}", productMap);
+        log.info("order.getProducts() = {}", order.getProducts());
+
+        Integer sum = productMap.entrySet().stream()
+                .map(p -> p.getKey().getPrice() * p.getValue())
+                .reduce(0L, Long::sum).intValue();
+        log.info("sum = {}", sum);
+        model.addAttribute("productMap", productMap);
+        model.addAttribute("sum", sum);
         return "/your-order";
     }
 

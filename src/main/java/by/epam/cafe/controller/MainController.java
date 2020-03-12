@@ -53,8 +53,9 @@ public class MainController {
         try {
             ProductType type = ProductType.valueOf(productType);
             List<ProductGroup> allByType = productGroupDao.findAllByType(type);
-            Map<ProductGroup, Integer> withPrice = allByType.stream()
-                    .collect(Collectors.toMap(p -> p, p -> productDao.findMinPriceByProductGroup(p)));
+            Map<Map.Entry<ProductGroup, Integer>, List<Product>> withPrice = allByType.stream()
+                    .collect(Collectors.toMap(p -> Map.entry(p, productDao.findMinPriceByProductGroup(p)),
+                            p -> productDao.findAllByProductGroup(p)));
             log.info("withPrice = {}", withPrice);
 
             model.addAttribute("products", withPrice);

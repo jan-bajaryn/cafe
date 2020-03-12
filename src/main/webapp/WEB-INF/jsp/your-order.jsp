@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="/static/css/footer.css">
     <link rel="stylesheet" href="/static/css/nav__bar.css">
     <link rel="stylesheet" href="/static/css/buttons.css">
-    <link rel="stylesheet" href="/static/css/your-order/main.css">
+    <link rel="stylesheet" href="/static/css/order-list/main.css">
 </head>
 <body>
 
@@ -67,10 +67,35 @@
             <td>${order.deliveryInf.deliveryTime}</td>
         </tr>
         <tr>
-            <td>Сумма доставки</td>
+            <td>Сумма заказа</td>
             <td>${order.price}</td>
         </tr>
     </table>
+    <button type="button" class="btn orange__bg" data-toggle="collapse" data-target="#demo">Продукты</button>
+    <div id="demo" class="collapse">
+        <div class="product-list">
+            <c:forEach var="product" items="${productMap}">
+                <div class="product-item">
+                    <div class="grid-part">
+                        <div class="image-part">
+                            <img src="../static/img/${product.key.productGroup.photoName}" alt="">
+                        </div>
+                        <div class="product-name">
+                                ${product.key.productGroup.name}
+                        </div>
+                        <div class="product-type text-muted">
+                                ${product.key.weight} гр.
+                        </div>
+                    </div>
+                    <div class="flex-part">
+                        <span class="text-danger">${product.value}</span>
+                        <div class="prise mr-3 ml-5">
+                                ${String.format("%.2f",(product.key.price*product.value)/100)} руб.
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
 </main>
 
 <c:import url="fragments/footer.jsp"/>

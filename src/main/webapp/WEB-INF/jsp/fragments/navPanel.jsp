@@ -12,12 +12,12 @@
                 <i class='fas fa-pizza-slice'></i>
             </div>
             <ul>
-                <li><a href="?">Пиццы</a></li>
-                <li><a href="?">Закуски</a></li>
-                <li><a href="?">Десерты</a></li>
-                <li><a href="?">Напитки</a></li>
-                <li><a href="?">Контакты</a></li>
-                <li><a href="?">О нас</a></li>
+                <li><a href="<c:url value="/?type=PIZZA"/>">Пиццы</a></li>
+                <li><a href="<c:url value="/?type=SNACK"/>">Закуски</a></li>
+                <li><a href="<c:url value="/?type=DRINK"/>">Напитки</a></li>
+                <li><a href="<c:url value="/?type=DESSERT"/>">Десерты</a></li>
+<%--                <li><a href="?">Контакты</a></li>--%>
+<%--                <li><a href="?">О нас</a></li>--%>
             </ul>
         </div>
         <div class="basket">

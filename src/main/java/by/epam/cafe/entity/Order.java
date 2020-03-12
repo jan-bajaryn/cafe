@@ -10,7 +10,9 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -38,7 +40,12 @@ public class Order {
     @OneToOne
     private DeliveryInf deliveryInf;
 
-    @ManyToMany
-    private List<Product> products;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "order_products",
+            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "products_id", referencedColumnName = "id")}
+    )
+    private List<Product> products = new ArrayList<>();
 
 }
