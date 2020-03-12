@@ -79,24 +79,28 @@ VALUES (17, 3030, 700, 6);
 # VALUES (1, 2);
 
 
-INSERT INTO `delivery_inf` (`id`, `client_name`, `delivery_time`, `email`, `floor`, `house`, `phone`, `porch`, `room`,
-                            `street`, `comments`)
-VALUES (1, 'Andreyaaa', '2020-03-11 19:07:32.000000', 'aaa@gmail.com', '2', '4', '+375 29 111 11 11', '1', '24',
-        'Leninaff', ''),
-       (2, 'Анастасия', NULL, 'anastasiaSemenova@mail.ru', '3', '43', '+375 444 44 11', '5', '33', 'Семенова',
-        ''),
-       (4, 'Андрей', NULL, 'jjj@gmail.com', '3', '3', '+375 29 456 45 45', '1', '23', 'Курочкина', '');
-
-INSERT INTO `order` (`id`, `creation`, `payment_type`, `price`, `status`, `delivery_inf_id`)
-VALUES (1, '2020-03-11 00:00:00', 0, 2002, 4, 1),
-       (3, NULL, 0, 0, 0, 2),
-       (5, NULL, 0, 10005, 0, 4);
 
 
-INSERT INTO `order_products` (`order_id`, `products_id`)
-VALUES (1, 1),
-       (1, 3),
-       (1, 2),
-       (5, 8),
-       (5, 8),
-       (5, 8);
+
+
+# INSERT INTO `delivery_inf` (`id`, `client_name`, `delivery_time`, `email`, `floor`, `house`, `phone`, `porch`, `room`,
+#                             `street`, `comments`)
+# VALUES (1, 'Andreyaaa', '2020-03-11 19:07:32.000000', 'aaa@gmail.com', '2', '4', '+375 29 111 11 11', '1', '24',
+#         'Leninaff', ''),
+#        (2, 'Анастасия', NULL, 'anastasiaSemenova@mail.ru', '3', '43', '+375 444 44 11', '5', '33', 'Семенова',
+#         ''),
+#        (4, 'Андрей', NULL, 'jjj@gmail.com', '3', '3', '+375 29 456 45 45', '1', '23', 'Курочкина', '');
+#
+# INSERT INTO `order` (`id`, `creation`, `payment_type`, `price`, `status`, `delivery_inf_id`)
+# VALUES (1, '2020-03-11 00:00:00', 0, 2002, 4, 1),
+#        (3, NULL, 0, 0, 0, 2),
+#        (5, NULL, 0, 10005, 0, 4);
+
+
+# INSERT INTO `order_products` (`order_id`, `products_id`)
+# VALUES (1, 1),
+#        (1, 3),
+#        (1, 2),
+#        (5, 8),
+#        (5, 8),
+#        (5, 8);

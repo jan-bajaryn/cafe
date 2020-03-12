@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "product", uniqueConstraints = {@UniqueConstraint(columnNames = {"product_group_id", "weight"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"product_group_id", "weight"})})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,7 +29,7 @@ public class Product {
     @JoinColumn(name = "product_group_id")
     private ProductGroup productGroup;
 
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany/*(mappedBy = "products")*/
     private List<Order> orders = new ArrayList<>();
 
 }

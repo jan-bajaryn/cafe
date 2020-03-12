@@ -38,14 +38,15 @@ public class Order {
     private PaymentType paymentType;
 
     @OneToOne
+    @JoinColumn(name = "delivery_inf_id")
     private DeliveryInf deliveryInf;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "order_products",
-            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "products_id", referencedColumnName = "id")}
-    )
+    @ManyToMany/*(cascade = CascadeType.ALL)*/
+//    @JoinTable(
+//            name = "order_products",
+//            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")},
+//            inverseJoinColumns = {@JoinColumn(name = "products_id", referencedColumnName = "id")}
+//    )
     private List<Product> products = new ArrayList<>();
 
 }

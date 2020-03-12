@@ -110,7 +110,7 @@ public class OrderController {
         Order order = Order.builder()
                 .products(basket.getProducts())
                 .deliveryInf(save)
-                .paymentType(PaymentType.CASH)//надо дополнить
+                .paymentType(PaymentType.CASH)
                 .price(calcSum(basket))
                 .status(OrderStatus.WAITING)
                 .build();
