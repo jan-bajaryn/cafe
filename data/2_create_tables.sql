@@ -81,7 +81,7 @@ create table product_group_products
 create table user
 (
     id       bigint not null,
-    address  varchar(255),
+#     address  varchar(255),
     creation datetime(6),
     name     varchar(255),
     password varchar(255),

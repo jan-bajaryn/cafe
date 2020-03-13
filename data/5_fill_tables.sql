@@ -79,10 +79,6 @@ VALUES (17, 3030, 700, 6);
 # VALUES (1, 2);
 
 
-
-
-
-
 # INSERT INTO `delivery_inf` (`id`, `client_name`, `delivery_time`, `email`, `floor`, `house`, `phone`, `porch`, `room`,
 #                             `street`, `comments`)
 # VALUES (1, 'Andreyaaa', '2020-03-11 19:07:32.000000', 'aaa@gmail.com', '2', '4', '+375 29 111 11 11', '1', '24',
@@ -104,3 +100,10 @@ VALUES (17, 3030, 700, 6);
 #        (5, 8),
 #        (5, 8),
 #        (5, 8);
+
+
+# INSERT INTO `user`(id, creation, name, password, phone, role, surname, username, email, floor, house, porch, room, street)
+# VALUES (11, '2020-03-13 15:52:57.567086', 'Vania', 'abcdefg', '+375 29 444 11 11', 2, 'Ivanov', 'mister',
+#         'vania@mail.ru', '3', '11/2', '1', '10', 'Lenina'),
+#        (12, '2020-03-13 15:55:52.611265', 'Anatoliy', '1234', '+375 33 333 33 33', 1, 'Chichivarkin', 'Alex',
+#         'toha@gmail.com', '', '', '', '', '');

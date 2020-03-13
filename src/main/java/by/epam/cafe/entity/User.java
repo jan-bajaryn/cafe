@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -22,22 +23,32 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
+    @Column(unique = true)
     private String username;
+
+    @NotNull
     private String password;
 
     @Enumerated(value = EnumType.ORDINAL)
     private Role role;
+
+    @NotNull
     private String name;
     private String surname;
-
-    //    @CreatedDate
-//    @CreatedDate
 
     @CreationTimestamp
     private LocalDateTime creation;
 
-    private String address;
+    private String street;
+    private String house;
+    private String room;
+    private String porch;
+    private String floor;
+
     private String phone;
 
+    @NotNull
+    private String email;
 
 }
