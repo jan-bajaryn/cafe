@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,15 +26,18 @@ public class User {
 
     @NotNull
     @Column(unique = true)
+    @NotEmpty
     private String username;
 
     @NotNull
+    @NotEmpty
     private String password;
 
     @Enumerated(value = EnumType.ORDINAL)
     private Role role;
 
     @NotNull
+    @NotEmpty
     private String name;
     private String surname;
 
@@ -49,6 +53,9 @@ public class User {
     private String phone;
 
     @NotNull
+    @NotEmpty
     private String email;
 
+
 }
+

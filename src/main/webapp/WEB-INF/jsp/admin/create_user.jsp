@@ -32,7 +32,7 @@
 
 <main class="container">
     <div class="create__data">
-        <form action="?" method="post">
+        <form action="<c:url value="/admin/create_user"/> " method="post">
 
             <div class="username">
                 <label for="username">Username:</label>

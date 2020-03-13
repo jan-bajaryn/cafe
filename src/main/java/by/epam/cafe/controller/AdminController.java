@@ -7,24 +7,28 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @Slf4j
+@RequestMapping(path = "/admin")
 public class AdminController {
 
     @Autowired
     private UserRepo userRepo;
 
-    @GetMapping("/admin/create_user")
+    @GetMapping("/create_user")
     public String createUser(Model model) {
         model.addAttribute("roles", Role.values());
         return "/admin/create_user";
     }
 
-    @PostMapping("/admin/create_user")
+    @PostMapping("/create_user")
     public String adminCreateUser(
             @RequestParam(name = "username") String username,
             @RequestParam(name = "password") String password,
@@ -73,13 +77,87 @@ public class AdminController {
 
         userRepo.save(build);
 
-        return "redirect:/admin/create_user";
+        return "redirect:/admin/user_list";
     }
 
-    @GetMapping("/admin/user_list")
+    @GetMapping("/user_list")
     public String adminUserList(Model model) {
         model.addAttribute("users", userRepo.findAll());
         return "/admin/user_list";
     }
 
+    @GetMapping("/edit_user/{id}")
+    public String editUser(Model model,
+                           @PathVariable(name = "id") Long id) {
+
+        List<Role> roles = new ArrayList<>(Arrays.asList(Role.values()));
+        Optional<User> byId = userRepo.findById(id);
+        if (byId.isPresent()) {
+            User user = byId.get();
+            roles.remove(user.getRole());
+            model.addAttribute("roles", roles);
+            model.addAttribute("user", user);
+        } else {
+            model.addAttribute("roles", roles);
+            model.addAttribute("user", null);
+        }
+
+        return "/admin/edit_user";
+    }
+
+    @PostMapping("/edit_user")
+    public String editUser(
+            @RequestParam(name = "id") Long id,
+            @RequestParam(name = "username") String username,
+            @RequestParam(name = "password") String password,
+            @RequestParam(name = "role") String role,
+            @RequestParam(name = "name") String name,
+            @RequestParam(name = "surname") String surname,
+            @RequestParam(name = "street") String street,
+            @RequestParam(name = "house") String house,
+            @RequestParam(name = "room") String room,
+            @RequestParam(name = "porch") String porch,
+            @RequestParam(name = "floor") String floor,
+            @RequestParam(name = "phone") String phone,
+            @RequestParam(name = "email") String email
+    ) {
+
+
+        log.info("id = {}", id);
+        log.info("username = {}", username);
+        log.info("password = {}", password);
+        log.info("role = {}", role);
+        log.info("name = {}", name);
+        log.info("surname = {}", surname);
+        log.info("street = {}", street);
+        log.info("house = {}", house);
+        log.info("room = {}", room);
+        log.info("porch = {}", porch);
+        log.info("floor = {}", floor);
+        log.info("phone = {}", phone);
+        log.info("email = {}", email);
+
+
+        Optional<User> byId = userRepo.findById(id);
+        if (byId.isPresent()) {
+            User user = byId.get();
+
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setRole(Role.valueOf(role));
+            user.setName(name);
+            user.setSurname(surname);
+            user.setStreet(street);
+            user.setHouse(house);
+            user.setRoom(room);
+            user.setPorch(porch);
+            user.setFloor(floor);
+            user.setPhone(phone);
+            user.setEmail(email);
+
+            userRepo.save(user);
+        }
+
+        return "redirect:/admin/user_list";
+    }
 }

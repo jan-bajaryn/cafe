@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="en">
@@ -10,6 +11,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+          crossorigin="anonymous">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+
     <link rel="stylesheet" href="/static/css/footer.css">
     <link rel="stylesheet" href="/static/css/nav__bar.css">
     <link rel="stylesheet" href="/static/css/buttons.css">
@@ -17,7 +24,64 @@
 
 </head>
 <body>
+<c:import url="../fragments/navPanel.jsp"/>
 
+<header>
+    <h1>User list</h1>
+</header>
+
+<main class="container">
+    <div class="create__new mb-5">
+        <a href="<c:url value="/admin/create_user"/>">
+            <button class="btn white__bg__orange">
+                Create new user
+            </button>
+        </a>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Role</th>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Address</th>
+            <th>Подробнее</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${users}" var="u">
+            <tr>
+                <td>${u.id}</td>
+                <td>${u.role}</td>
+                <td>${u.username}</td>
+                <td>${u.name}</td>
+                <td>${u.surname}</td>
+                <td>
+                    <span>${u.street}</span>
+                    &nbsp;
+                    <span>${u.house}</span>
+                    &nbsp;
+                    <span>${u.room}</span>
+                    &nbsp;
+                    <span>${u.porch}</span>
+                    &nbsp;
+                    <span>${u.floor}</span>
+                    &nbsp;
+                </td>
+                <td>
+                    <a href="<c:url value="/admin/edit_user/${u.id}"/>">
+                        <button class="btn orange__bg">Подробнее</button>
+                    </a>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</main>
+<c:import url="../fragments/footer.jsp"/>
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
