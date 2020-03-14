@@ -115,6 +115,16 @@
                     <input type="email" id="email" name="email" placeholder="Email"
                            class="form-control" value="${user.email}">
                 </div>
+
+                <div class="isBlocked">
+                    <label for="isBlocked">is blocked:</label>
+                    <c:if test="${user.isBlocked}">
+                        <input type="checkbox" checked name="isBlocked" id="isBlocked" value="1">
+                    </c:if>
+                    <c:if test="${!user.isBlocked}">
+                        <input type="checkbox" name="isBlocked" id="isBlocked" value="1">
+                    </c:if>
+                </div>
                 <div class="submit">
                     <label for="submit"></label>
                     <button type="submit" id="submit" class="btn orange__bg">Подтвердить</button>

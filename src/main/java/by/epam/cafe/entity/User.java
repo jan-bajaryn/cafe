@@ -57,5 +57,9 @@ public class User {
     private String email;
 
 
+    @NotNull
+    private Boolean isBlocked;
+
+
 }
 

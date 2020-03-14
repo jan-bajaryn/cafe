@@ -73,6 +73,7 @@ public class AdminController {
                 .floor(floor)
                 .phone(phone)
                 .email(email)
+                .isBlocked(false)
                 .build();
 
         userRepo.save(build);
@@ -119,7 +120,8 @@ public class AdminController {
             @RequestParam(name = "porch") String porch,
             @RequestParam(name = "floor") String floor,
             @RequestParam(name = "phone") String phone,
-            @RequestParam(name = "email") String email
+            @RequestParam(name = "email") String email,
+            @RequestParam(name = "isBlocked", required = false) String isBlocked
     ) {
 
 
@@ -154,10 +156,38 @@ public class AdminController {
             user.setFloor(floor);
             user.setPhone(phone);
             user.setEmail(email);
+            user.setIsBlocked(isBlocked != null);
 
             userRepo.save(user);
         }
 
+        return "redirect:/admin/user_list";
+    }
+
+
+    @PostMapping("/block/{id}")
+    public String adminBlockUId(@PathVariable(name = "id") Long id) {
+        Optional<User> byId = userRepo.findById(id);
+        if (byId.isPresent()) {
+            User user = byId.get();
+            if (!user.getIsBlocked()) {
+                user.setIsBlocked(true);
+                userRepo.save(user);
+            }
+        }
+        return "redirect:/admin/user_list";
+    }
+
+    @PostMapping("/unblock/{id}")
+    public String adminUnBlockUId(@PathVariable(name = "id") Long id) {
+        Optional<User> byId = userRepo.findById(id);
+        if (byId.isPresent()) {
+            User user = byId.get();
+            if (user.getIsBlocked()) {
+                user.setIsBlocked(false);
+                userRepo.save(user);
+            }
+        }
         return "redirect:/admin/user_list";
     }
 }

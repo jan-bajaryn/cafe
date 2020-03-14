@@ -30,7 +30,7 @@
     <h1>User list</h1>
 </header>
 
-<main class="container">
+<main class="text-center container">
     <div class="create__new mb-5">
         <a href="<c:url value="/admin/create_user"/>">
             <button class="btn white__bg__orange">
@@ -39,47 +39,63 @@
         </a>
     </div>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Role</th>
-            <th>Username</th>
-            <th>Name</th>
-            <th>Surname</th>
-            <th>Address</th>
-            <th>Подробнее</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${users}" var="u">
+    <div class="text-center">
+        <table class="table">
+            <thead>
             <tr>
-                <td>${u.id}</td>
-                <td>${u.role}</td>
-                <td>${u.username}</td>
-                <td>${u.name}</td>
-                <td>${u.surname}</td>
-                <td>
-                    <span>${u.street}</span>
-                    &nbsp;
-                    <span>${u.house}</span>
-                    &nbsp;
-                    <span>${u.room}</span>
-                    &nbsp;
-                    <span>${u.porch}</span>
-                    &nbsp;
-                    <span>${u.floor}</span>
-                    &nbsp;
-                </td>
-                <td>
-                    <a href="<c:url value="/admin/edit_user/${u.id}"/>">
-                        <button class="btn orange__bg">Подробнее</button>
-                    </a>
-                </td>
+                <th>Id</th>
+                <th>Is blocked</th>
+                <th>Role</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Address</th>
+                <th>Подробнее</th>
+                <th>Заблокировать</th>
+                <th>Разблокировать</th>
             </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <c:forEach items="${users}" var="u">
+                <tr>
+                    <td>${u.id}</td>
+                    <td>${u.isBlocked}</td>
+                    <td>${u.role}</td>
+                    <td>${u.username}</td>
+                    <td>${u.name}</td>
+                    <td>${u.surname}</td>
+                    <td>
+                        <span>${u.street}</span>
+                        &nbsp;
+                        <span>${u.house}</span>
+                        &nbsp;
+                        <span>${u.room}</span>
+                        &nbsp;
+                        <span>${u.porch}</span>
+                        &nbsp;
+                        <span>${u.floor}</span>
+                        &nbsp;
+                    </td>
+                    <td>
+                        <a href="<c:url value="/admin/edit_user/${u.id}"/>">
+                            <button class="btn orange__bg">Подробнее</button>
+                        </a>
+                    </td>
+                    <td>
+                        <form action="<c:url value="/admin/block/${u.id}"/>" method="post">
+                            <button class="btn orange__bg" type="submit">Заблокировать</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="<c:url value="/admin/unblock/${u.id}"/>" method="post">
+                            <button class="btn orange__bg" type="submit">Разблокировать</button>
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </main>
 <c:import url="../fragments/footer.jsp"/>
 
