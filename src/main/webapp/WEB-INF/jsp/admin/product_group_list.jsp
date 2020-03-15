@@ -33,6 +33,15 @@
 </header>
 
 <main class="container">
+
+    <div class="create__new mb-5">
+        <a href="<c:url value="/admin/create_product_group"/>">
+            <button class="btn white__bg__orange">
+                Create new product group
+            </button>
+        </a>
+    </div>
+
     <table class="table">
         <thead>
         <tr>

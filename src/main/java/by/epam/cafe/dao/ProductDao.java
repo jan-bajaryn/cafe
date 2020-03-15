@@ -12,4 +12,6 @@ public interface ProductDao extends JpaRepository<Product, Long> {
     Integer findMinPriceByProductGroup(ProductGroup productGroup);
 
     List<Product> findAllByProductGroup(ProductGroup p);
+
+    List<Product> findAllByProductGroupNull();
 }

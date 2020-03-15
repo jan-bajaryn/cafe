@@ -6,14 +6,20 @@ import by.epam.cafe.dao.UserRepo;
 import by.epam.cafe.entity.Product;
 import by.epam.cafe.entity.ProductGroup;
 import by.epam.cafe.entity.User;
+import by.epam.cafe.entity.enums.ProductType;
 import by.epam.cafe.entity.enums.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -28,6 +34,10 @@ public class AdminController {
 
     @Autowired
     private ProductGroupDao productGroupDao;
+
+    @Value("${download.path}")
+    private String downloadPath;
+
 
     @GetMapping("/create_user")
     public String createUser(Model model) {
@@ -206,18 +216,148 @@ public class AdminController {
     }
 
     @GetMapping("/product_list")
-    public String productList() {
+    public String productList(Model model) {
+//        List<Product> products = productDao.findAllByProductGroupNull();
+//        log.info("productList: products = {}", products);
+
+        model.addAttribute("products", productDao.findAll());
+
         return "/admin/product_list";
     }
 
+    @GetMapping("/edit_product/{id}")
+    public String editProduct(@PathVariable(name = "id") Long id,
+                              Model model) {
+        Product product = productDao.findById(id).orElse(null);
+        model.addAttribute("product", product);
+        List<ProductGroup> all = productGroupDao.findAll();
+        if (product != null && product.getProductGroup() != null) {
+            all.removeIf(p -> p.getId().equals(product.getProductGroup().getId()));
+        }
+
+        model.addAttribute("groups", all);
+        return "/admin/edit_product";
+    }
+
+    @PostMapping("/edit_product")
+    public String editProduct(
+            @RequestParam(name = "id") Long id,
+            @RequestParam(name = "product_group") Long productGroupId,
+            @RequestParam(name = "price") Integer price,
+            @RequestParam(name = "weight") Integer weight
+    ) {
+
+
+        log.info("id = {}", id);
+        log.info("productGroupId = {}", productGroupId);
+        log.info("price = {}", price);
+        log.info("weight = {}", weight);
+
+        Optional<Product> byId = productDao.findById(id);
+        log.info("byId.isPresent() = {}", byId.isPresent());
+        if (byId.isPresent()) {
+            Product product = byId.get();
+            product.setPrice(price);
+            product.setWeight(weight);
+
+            ProductGroup productGroupNew = productGroupDao.findById(productGroupId).orElse(null);
+            log.info("productGroupNew = {}", productGroupNew);
+            product.setProductGroup(productGroupNew);
+
+            productDao.save(product);
+        }
+
+        return "redirect:/admin/product_list";
+    }
+
+
+    @GetMapping("/create_product")
+    public String createProduct(Model model) {
+        model.addAttribute("groups", productGroupDao.findAll());
+        return "/admin/create_product";
+    }
+
+    @PostMapping("/create_product")
+    public String createProduct(@RequestParam(name = "product_group") Long productGroupId,
+                                @RequestParam(name = "price") Integer price,
+                                @RequestParam(name = "weight") Integer weight) {
+        Product product = new Product();
+        product.setPrice(price);
+        product.setWeight(weight);
+
+        if (productGroupId != null) {
+            productGroupDao.findById(productGroupId)
+                    .ifPresent(product::setProductGroup);
+        }
+        productDao.save(product);
+        return "redirect:/admin/product_list";
+    }
+
     @GetMapping("/create_product_group")
-    public String createProductGroup() {
+    public String createProductGroup(Model model) {
+
+        model.addAttribute("types", ProductType.values());
+        model.addAttribute("products", productDao.findAllByProductGroupNull());
+
         return "/admin/create_product_group";
     }
 
-    @GetMapping("/create_product")
-    public String createProduct() {
-        return "/admin/create_product";
+    @PostMapping("/create_product_group")
+    public String createProductGroup(
+            @RequestParam(name = "name") String name,
+            @RequestParam(name = "description") String description,
+            @RequestParam(name = "file") MultipartFile multipartFile,
+            @RequestParam(name = "type") ProductType type,
+            @RequestParam(name = "products", required = false) List<Long> productIds
+    ) {
+
+        log.info("createProductGroup: name = {}", name);
+        log.info("createProductGroup: description = {}", description);
+        log.info("createProductGroup: multipartFile = {}", multipartFile);
+        log.info("createProductGroup: type = {}", type);
+        log.info("createProductGroup: productIds = {}", productIds);
+
+        ProductGroup productGroup = new ProductGroup();
+
+        productGroup.setName(name);
+
+        productGroup.setDisabled(true);
+        productGroup.setDescription(description);
+        productGroup.setType(type);
+
+        if (productIds != null) {
+            Set<Product> products = productIds.stream()
+                    //TODO change throw to something other
+                    .map(id -> productDao.findById(id).orElseThrow(IllegalArgumentException::new))
+                    .collect(Collectors.toSet());
+
+            productGroup.setProducts(products);
+        }
+
+
+        if (multipartFile != null
+                && multipartFile.getOriginalFilename() != null
+                && !multipartFile.getOriginalFilename().isEmpty()) {
+            File updoadDir = new File(downloadPath);
+            if (!updoadDir.exists()) {
+                updoadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "." + multipartFile.getOriginalFilename();
+
+            try {
+                multipartFile.transferTo(new File(downloadPath + File.separator + resultFileName));
+                log.info("resultFileName = {}", resultFileName);
+                productGroup.setPhotoName(resultFileName);
+                productGroupDao.save(productGroup);
+            } catch (IOException e) {
+                return "redirect:/errors/no-such-products";
+            }
+
+        }
+
+        return "redirect:/admin/product_group_list";
     }
 
 
@@ -245,6 +385,30 @@ public class AdminController {
             }
         }
         return "redirect:/admin/product_group_list";
+    }
+
+
+    @GetMapping("/edit_product_group/{id}")
+    public String editProductGroup(
+            @PathVariable(name = "id") Long id,
+            Model model
+    ) {
+        Optional<ProductGroup> byId = productGroupDao.findById(id);
+        if (byId.isPresent()) {
+            ProductGroup productGroup = byId.get();
+            EnumSet<ProductType> values = EnumSet.complementOf(EnumSet.of(productGroup.getType()));
+            model.addAttribute("types", values);
+
+            model.addAttribute("products", productDao.findAllByProductGroupNull());
+            model.addAttribute("group", productGroup);
+
+            log.info("productGroup.getProducts() = {}", productGroup.getProducts());
+
+
+            return "/admin/edit_product_group";
+        }
+
+        return "/errors/no-such-products";
     }
 
 }

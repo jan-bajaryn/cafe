@@ -48,6 +48,7 @@
     font-size: 20px;
     line-height: 23px;
     padding-bottom: 10px;
+    height: 54px;
 }
 
 .p_card-description {
@@ -70,4 +71,8 @@
 .p_card-footer button:hover {
     background: #ff6900;
     color: #ffffff;
+}
+
+.p_card-description {
+    height: 77px !important;
 }
