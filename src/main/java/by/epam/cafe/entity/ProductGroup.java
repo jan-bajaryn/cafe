@@ -14,9 +14,9 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
-//@Getter
-//@Setter
+//@Data
+@Getter
+@Setter
 public class ProductGroup {
 
     @Id
@@ -38,7 +38,7 @@ public class ProductGroup {
     @NotNull
     private ProductType type;
 
-    @OneToMany(fetch = FetchType.EAGER/*, mappedBy = "productGroup"*/)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "productGroup")
     private Set<Product> products;
 
     private boolean disabled;
