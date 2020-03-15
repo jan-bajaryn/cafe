@@ -411,4 +411,60 @@ public class AdminController {
         return "/errors/no-such-products";
     }
 
+    @PostMapping("/edit_product_group")
+    public String editProductGroup(@RequestParam(name = "id") ProductGroup id,
+                                   @RequestParam(name = "name") String name,
+                                   @RequestParam(name = "description") String description,
+                                   @RequestParam(name = "file") MultipartFile multipartFile,
+                                   @RequestParam(name = "type") ProductType type,
+                                   @RequestParam(name = "products", required = false) Set<Product> productIds
+    ) {
+        log.info("id = {}", id);
+        log.info("name = {}", name);
+        log.info("description = {}", description);
+        log.info("multipartFile = {}", multipartFile);
+        log.info("type = {}", type);
+        log.info("productIds = {}", productIds);
+
+
+        id.setName(name);
+
+        id.setDisabled(true);
+        id.setDescription(description);
+        id.setType(type);
+
+        for (Product product : productIds) {
+            product.setProductGroup(id);
+            productDao.save(product);
+        }
+
+        id.setProducts(productIds);
+
+
+        if (multipartFile != null
+                && multipartFile.getOriginalFilename() != null
+                && !multipartFile.getOriginalFilename().isEmpty()) {
+            File updoadDir = new File(downloadPath);
+            if (!updoadDir.exists()) {
+                updoadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "." + multipartFile.getOriginalFilename();
+
+            try {
+                multipartFile.transferTo(new File(downloadPath + File.separator + resultFileName));
+                log.info("resultFileName = {}", resultFileName);
+                id.setPhotoName(resultFileName);
+            } catch (IOException e) {
+                return "redirect:/errors/no-such-products";
+            }
+
+        }
+        productGroupDao.save(id);
+
+
+        return "redirect:/admin/product_group_list";
+    }
+
 }
