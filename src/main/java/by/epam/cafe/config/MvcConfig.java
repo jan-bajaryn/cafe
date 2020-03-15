@@ -1,22 +1,22 @@
 package by.epam.cafe.config;
 
 import by.epam.cafe.controller.interceptor.BasketInterceptor;
-import by.epam.cafe.controller.session.Basket;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.http.CacheControl;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-//@EnableWebMvc
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
+
+    @Autowired
+    private BasketInterceptor basketInterceptor;
+
+
+//    @Autowired
+//    private LogInterceptor logInterceptor;
 
 //    @Bean
 //    @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -24,11 +24,12 @@ public class MvcConfig implements WebMvcConfigurer {
 //        return new Basket();
 //    }
 
-    @Bean
-    @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public BasketInterceptor myInterceptor() {
-        return new BasketInterceptor(); // let Spring go nuts injecting stuff
-    }
+//    @Bean
+//    @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+//    @Scope(value = "singleton", proxyMode = ScopedProxyMode.TARGET_CLASS)
+//    public BasketInterceptor myInterceptor() {
+//        return new BasketInterceptor();
+//    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -39,6 +40,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(myInterceptor());
+//        registry.addInterceptor(myInterceptor());
+        registry.addInterceptor(basketInterceptor).excludePathPatterns("/static/**");
     }
 }
