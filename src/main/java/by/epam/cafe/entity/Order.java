@@ -41,7 +41,7 @@ public class Order {
     @JoinColumn(name = "delivery_inf_id")
     private DeliveryInf deliveryInf;
 
-    @ManyToMany/*(cascade = CascadeType.ALL)*/
+    @ManyToMany(fetch = FetchType.EAGER)/*(cascade = CascadeType.ALL)*/
 //    @JoinTable(
 //            name = "order_products",
 //            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")},

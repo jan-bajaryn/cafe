@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import java.util.List;
@@ -29,7 +30,9 @@ public class ProductGroup {
     @Enumerated(value = EnumType.ORDINAL)
     private ProductType type;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
 //    @Column(unique = true)
     private Set<Product> products;
+
+    private boolean disabled;
 }

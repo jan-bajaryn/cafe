@@ -1,5 +1,6 @@
 package by.epam.cafe.entity;
 
+import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +26,7 @@ public class Product {
     @Column(name = "weight")
     private Integer weight;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_group_id")
     private ProductGroup productGroup;
 

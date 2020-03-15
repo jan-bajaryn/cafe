@@ -1,6 +1,10 @@
 package by.epam.cafe.controller;
 
+import by.epam.cafe.dao.ProductDao;
+import by.epam.cafe.dao.ProductGroupDao;
 import by.epam.cafe.dao.UserRepo;
+import by.epam.cafe.entity.Product;
+import by.epam.cafe.entity.ProductGroup;
 import by.epam.cafe.entity.User;
 import by.epam.cafe.entity.enums.Role;
 import lombok.extern.slf4j.Slf4j;
@@ -9,10 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @Slf4j
@@ -21,6 +22,12 @@ public class AdminController {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private ProductDao productDao;
+
+    @Autowired
+    private ProductGroupDao productGroupDao;
 
     @GetMapping("/create_user")
     public String createUser(Model model) {
@@ -190,4 +197,54 @@ public class AdminController {
         }
         return "redirect:/admin/user_list";
     }
+
+
+    @GetMapping("/product_group_list")
+    public String productGroupList(Model model) {
+        model.addAttribute("groups", productGroupDao.findAll());
+        return "/admin/product_group_list";
+    }
+
+    @GetMapping("/product_list")
+    public String productList() {
+        return "/admin/product_list";
+    }
+
+    @GetMapping("/create_product_group")
+    public String createProductGroup() {
+        return "/admin/create_product_group";
+    }
+
+    @GetMapping("/create_product")
+    public String createProduct() {
+        return "/admin/create_product";
+    }
+
+
+    @PostMapping("/disable_product_group")
+    public String disableProductGroup(@RequestParam(name = "id") Long id) {
+        Optional<ProductGroup> byId = productGroupDao.findById(id);
+        if (byId.isPresent()) {
+            ProductGroup productGroup = byId.get();
+            if (!productGroup.isDisabled()) {
+                productGroup.setDisabled(true);
+                productGroupDao.save(productGroup);
+            }
+        }
+        return "redirect:/admin/product_group_list";
+    }
+
+    @PostMapping("/enable_product_group")
+    public String enableProductGroup(@RequestParam(name = "id") Long id) {
+        Optional<ProductGroup> byId = productGroupDao.findById(id);
+        if (byId.isPresent()) {
+            ProductGroup productGroup = byId.get();
+            if (productGroup.isDisabled()) {
+                productGroup.setDisabled(false);
+                productGroupDao.save(productGroup);
+            }
+        }
+        return "redirect:/admin/product_group_list";
+    }
+
 }
