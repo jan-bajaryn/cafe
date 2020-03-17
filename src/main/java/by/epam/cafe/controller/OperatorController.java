@@ -8,6 +8,7 @@ import by.epam.cafe.entity.enums.OrderStatus;
 import by.epam.cafe.entity.enums.PaymentType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
+@PreAuthorize("hasAuthority('OPERATOR')")
 public class OperatorController {
 
     @Autowired
