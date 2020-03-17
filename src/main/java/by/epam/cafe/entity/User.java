@@ -15,9 +15,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
@@ -64,6 +62,9 @@ public class User implements UserDetails {
 
     @NotNull
     private Boolean isBlocked;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private List<Order> orders = new ArrayList<>();
 
 
     @Override

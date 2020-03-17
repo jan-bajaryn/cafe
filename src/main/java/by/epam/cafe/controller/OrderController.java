@@ -6,10 +6,15 @@ import by.epam.cafe.dao.OrderRepo;
 import by.epam.cafe.entity.DeliveryInf;
 import by.epam.cafe.entity.Order;
 import by.epam.cafe.entity.Product;
+import by.epam.cafe.entity.User;
 import by.epam.cafe.entity.enums.OrderStatus;
 import by.epam.cafe.entity.enums.PaymentType;
+import by.epam.cafe.entity.enums.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.AuthenticatedPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +30,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
+@PreAuthorize("hasAuthority('CLIENT') || !isAuthenticated()")
 public class OrderController {
 
     @Autowired
@@ -73,7 +79,8 @@ public class OrderController {
                             @RequestParam(name = "email") String email,
                             @RequestParam(name = "tel") String tel,
                             @RequestParam(name = "name") String clientName,
-                            @RequestParam(name = "time") String time
+                            @RequestParam(name = "time") String time,
+                            @AuthenticationPrincipal User user
     ) {
         log.info("makeOrder: street = {}", street);
         log.info("makeOrder: house = {}", house);
@@ -85,13 +92,21 @@ public class OrderController {
         log.info("tel = {}", tel);
         log.info("clientName = {}", clientName);
         log.info("time = {}", time);
+        log.info("user = {}", user);
 
-        saveOrder(street, house, room, porch, floor, email, tel, clientName);
+//        if (user != null) {
+//            if (user.getRole() != Role.CLIENT) {
+//                return "redirect:/errors/no-such-products";
+//            }
+//        }
+
+
+        saveOrder(street, house, room, porch, floor, email, tel, clientName, user);
         return "redirect:/";
     }
 
 
-    public void saveOrder(String street, String house, String room, String porch, String floor, String email, String tel, String clientName) {
+    public void saveOrder(String street, String house, String room, String porch, String floor, String email, String tel, String clientName, User user) {
 
         DeliveryInf deliveryInf = DeliveryInf.builder()
                 .street(street)
@@ -113,6 +128,7 @@ public class OrderController {
                 .paymentType(PaymentType.CASH)
                 .price(calcSum(basket))
                 .status(OrderStatus.WAITING)
+                .user(user)
                 .build();
 
 

@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
+    <title>Edit user</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 
@@ -20,53 +20,24 @@
     <link rel="stylesheet" href="/static/css/footer.css">
     <link rel="stylesheet" href="/static/css/nav__bar.css">
     <link rel="stylesheet" href="/static/css/buttons.css">
-    <link rel="stylesheet" href="/static/css/login/main.css">
+    <link rel="stylesheet" href="/static/css/error/something_went_wrong/main.css">
 
 
 </head>
 <body>
 
-<c:import url="fragments/navPanel.jsp"/>
 
-
-<header class="container">
-    <h1>Login</h1>
+<c:import url="../fragments/navPanel.jsp"/>
+<header>
+    <h1>Something went wrong</h1>
 </header>
 
-
 <main class="container">
-    <form action="<c:url value="/login"/>" method="post" enctype="application/x-www-form-urlencoded">
-        <div class="username__group">
-            <label for="username">Username: </label>
-            <input type="text" id="username" placeholder="Username" class="form-control" name="username">
-        </div>
-
-        <div class="password__group">
-            <label for="password">Password:</label>
-            <input name="password" type="password" id="password" class="form-control" placeholder="Password">
-        </div>
-
-<%--        <input type="hidden"--%>
-<%--               name="${_csrf.parameterName}"--%>
-<%--               value="${_csrf.token}"/>--%>
-
-        <div class="submit">
-            <button class="btn white__bg__orange" type="submit">Submit</button>
-        </div>
-    </form>
-
-    <div class="links">
-        <div class="registration">
-            <a href="<c:url value="/registration"/>">Я ещё не зарегистрировался</a>
-        </div>
-        <div class="forgot__password">
-            <a href="<c:url value="/registration"/>">Я забыл пароль</a>
-        </div>
-    </div>
+    <div>Something went wrong. Please, try later</div>
 </main>
 
+<c:import url="../fragments/footer.jsp"/>
 
-<c:import url="fragments/footer.jsp"/>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>

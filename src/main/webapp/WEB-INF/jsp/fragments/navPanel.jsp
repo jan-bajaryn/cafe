@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <title>Nav Panel</title>
@@ -16,8 +17,20 @@
                 <li><a href="<c:url value="/?type=SNACK"/>">Закуски</a></li>
                 <li><a href="<c:url value="/?type=DRINK"/>">Напитки</a></li>
                 <li><a href="<c:url value="/?type=DESSERT"/>">Десерты</a></li>
-<%--                <li><a href="?">Контакты</a></li>--%>
-<%--                <li><a href="?">О нас</a></li>--%>
+                <sec:authorize access="!isAuthenticated()">
+                    <li><a href="<c:url value="/login"/>">Войти</a></li>
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('ADMIN')">
+                    <li><a href="<c:url value="/admin/user_list"/>">Пользователи</a></li>
+                    <li><a href="<c:url value="/admin/product_list"/>">Продукты</a></li>
+                    <li><a href="<c:url value="/admin/product_group_list"/>">Группы продуктов</a></li>
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('OPERATOR')">
+                    <li><a href="<c:url value="/order-list"/>">Заказы</a></li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li><a href="<c:url value="/logout"/>">Выйти</a></li>
+                </sec:authorize>
             </ul>
         </div>
         <div class="basket">

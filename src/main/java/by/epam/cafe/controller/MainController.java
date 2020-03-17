@@ -8,6 +8,7 @@ import by.epam.cafe.entity.ProductGroup;
 import by.epam.cafe.entity.enums.ProductType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,6 +76,7 @@ public class MainController {
     }
 
     @GetMapping("/put_item")
+    @PreAuthorize("hasAuthority('CLIENT') || !isAuthenticated()")
     public String putItem(@RequestParam(name = "variant", required = false) Long variant,
                           Model model) {
 
@@ -105,6 +107,7 @@ public class MainController {
 //    }
 
     @GetMapping("/order")
+    @PreAuthorize("hasAuthority('CLIENT') || !isAuthenticated()")
     public String order(Model model) {
 
 //        checkAndDeleteDisabled();

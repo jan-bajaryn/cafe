@@ -2,10 +2,7 @@ package by.epam.cafe.entity;
 
 import by.epam.cafe.entity.enums.OrderStatus;
 import by.epam.cafe.entity.enums.PaymentType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -15,11 +12,14 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "`order`")
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "user")
+@ToString(exclude = "user")
 public class Order {
 
     @Id
@@ -48,5 +48,8 @@ public class Order {
 //            inverseJoinColumns = {@JoinColumn(name = "products_id", referencedColumnName = "id")}
 //    )
     private List<Product> products = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user;
 
 }
