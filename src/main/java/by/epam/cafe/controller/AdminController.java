@@ -433,38 +433,50 @@ public class AdminController {
         id.setDescription(description);
         id.setType(type);
 
-        for (Product product : productIds) {
-            product.setProductGroup(id);
-            productDao.save(product);
-        }
-
-        id.setProducts(productIds);
+        RemoveProductGroupFromProducts(id);
+        saveProducts(id, productIds);
 
 
         if (multipartFile != null
                 && multipartFile.getOriginalFilename() != null
                 && !multipartFile.getOriginalFilename().isEmpty()) {
-            File updoadDir = new File(downloadPath);
-            if (!updoadDir.exists()) {
-                updoadDir.mkdir();
-            }
-
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFileName = uuidFile + "." + multipartFile.getOriginalFilename();
-
-            try {
-                multipartFile.transferTo(new File(downloadPath + File.separator + resultFileName));
-                log.info("resultFileName = {}", resultFileName);
-                id.setPhotoName(resultFileName);
-            } catch (IOException e) {
-                return "redirect:/errors/no-such-products";
-            }
-
+            if (downloadFile(id, multipartFile)) return "redirect:/errors/no-such-products";
         }
         productGroupDao.save(id);
-
-
         return "redirect:/admin/product_group_list";
     }
 
+    private boolean downloadFile(@RequestParam(name = "id") ProductGroup id, @RequestParam(name = "file") MultipartFile multipartFile) {
+        File updoadDir = new File(downloadPath);
+        if (!updoadDir.exists()) {
+            updoadDir.mkdir();
+        }
+
+        String uuidFile = UUID.randomUUID().toString();
+        String resultFileName = uuidFile + "." + multipartFile.getOriginalFilename();
+
+        try {
+            multipartFile.transferTo(new File(downloadPath + File.separator + resultFileName));
+            log.info("resultFileName = {}", resultFileName);
+            id.setPhotoName(resultFileName);
+        } catch (IOException e) {
+            return true;
+        }
+        return false;
+    }
+
+    private void RemoveProductGroupFromProducts(ProductGroup id) {
+        for (Product product : id.getProducts()) {
+            product.setProductGroup(null);
+            productDao.save(product);
+        }
+    }
+
+    private void saveProducts(ProductGroup id, Set<Product> productIds) {
+        for (Product product : productIds) {
+            product.setProductGroup(id);
+            productDao.save(product);
+        }
+        id.setProducts(productIds);
+    }
 }
